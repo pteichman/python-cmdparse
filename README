@@ -1,0 +1,27 @@
+cmdparse is a command line parser that works with CVS style
+commands.  Each command can have its own optparse settings.
+
+Install it with the usual setuptools usage:
+
+$ python setup.py install
+
+Example usage:
+
+import cmdparse
+
+class EchoCommand(cmdparse.Command):
+    def __init__(self):
+        cmdparse.Command.__init__(self, "echo", summary="echo a string")
+
+        self.add_option("-c", "--count", type="int",
+                        default="1", help="number of times to echo")
+
+    def run(self, options, args):
+        for i in xrange(options.count):
+            print " ".join(args)
+
+parser = cmdparse.CommandParser()
+parser.add_command(EchoCommand())
+
+(command, options, args) = parser.parse_args()
+command.run(options, args)
