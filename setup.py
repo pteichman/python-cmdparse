@@ -9,6 +9,6 @@ setup(
     version = "0.9",
     author = "Peter Teichman",
     license = "MIT",
-    package_data = {'':['*.*']},
-    packages = find_packages(),
+    packages = find_packages(exclude="tests"),
+    test_suite = "tests.cmdparse_suite",
 )
