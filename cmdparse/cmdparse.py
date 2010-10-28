@@ -96,6 +96,7 @@ class CommandParser(OptionParser):
             self.error("%s option not supplied" % option)
 
     def add_command(self, command, group="Other"):
+        command.parser = self
         self.commands.append(command)
         self.groups.setdefault(group, []).append(command)
 
