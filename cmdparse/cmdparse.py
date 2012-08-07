@@ -84,7 +84,7 @@ class CommandParser(OptionParser):
         if not kwargs.has_key("usage"):
             kwargs["usage"] = "%prog [options] <command> [command options]"
         OptionParser.__init__(self, *args, **kwargs)
-
+        self.auto_order = kwargs.pop('auto_order', False)
         self.commands = []
         self.groups = {}
 
@@ -96,6 +96,7 @@ class CommandParser(OptionParser):
             self.error("%s option not supplied" % option)
 
     def add_command(self, command, group="Other"):
+        command.parser = self
         self.commands.append(command)
         self.groups.setdefault(group, []).append(command)
 
@@ -154,7 +155,8 @@ class CommandParser(OptionParser):
         result = []
 
         groups = self.groups.keys()
-        groups.sort()
+        if self.auto_order:
+            groups.sort()
 
         max_cmd_length = 0
         for cmd in self.commands:
@@ -163,7 +165,8 @@ class CommandParser(OptionParser):
         for group in groups:
             result.append("%s commands:\n" % group)
             commands = self.groups[group]
-            commands.sort(lambda x, y: cmp(x.get_name(), y.get_name()))
+            if self.auto_order:
+                commands.sort(lambda x, y: cmp(x.get_name(), y.get_name()))
 
             for cmd in commands:
                 result.append("  %s%s  %s\n" % (cmd.helpstr, " "*(max_cmd_length-len(cmd.helpstr)), cmd.summary))
