@@ -4,4 +4,5 @@ python:
   - "2.6"
   - "2.5"
 
-script: python setup.py test
+install: pip install -r requirements-develop.txt --use-mirrors
+script: python setup.py check
