@@ -10,7 +10,7 @@ setup(
     url = "http://wiki.github.com/pteichman/python-cmdparse/",
     description = "A command line parser for CVS-style subcommands",
     packages = ["cmdparse"],
-    test_suite = "tests.cmdparse_suite",
+    test_suite = "tests",
     classifiers = [
         "Programming Language :: Python",
         "License :: OSI Approved :: MIT License",

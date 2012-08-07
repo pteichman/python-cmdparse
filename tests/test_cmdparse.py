@@ -16,6 +16,3 @@ class testCmdparse(unittest.TestCase):
         (command, options, args) = self.parser.parse_args("echo foo".split())
 
         self.assert_(isinstance(command, testCommands.EchoCommand))
-
-test_suite = unittest.TestSuite()
-test_suite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCmdparse))
