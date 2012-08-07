@@ -1,5 +1,5 @@
 import unittest
-from cmdparse import Command, CommandParser
+from cmdparse import CommandParser
 
 import testCommands
 

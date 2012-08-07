@@ -2,7 +2,7 @@ import sys
 import os
 import types
 
-from optparse import OptionParser, OptionError, SUPPRESS_USAGE
+from optparse import OptionParser, SUPPRESS_USAGE
 from gettext import gettext as _
 
 
