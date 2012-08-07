@@ -3,6 +3,7 @@ from cmdparse import Command, CommandParser
 
 import testCommands
 
+
 class testCmdparse(unittest.TestCase):
     def setUp(self):
         self.parser = CommandParser()

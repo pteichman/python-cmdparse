@@ -1,8 +1,10 @@
-import sys, os
+import sys
+import os
 import types
 
 from optparse import OptionParser, OptionError, SUPPRESS_USAGE
 from gettext import gettext as _
+
 
 class Command(OptionParser):
     def __init__(self, name, *args, **kwargs):
@@ -12,7 +14,7 @@ class Command(OptionParser):
         self.summary = kwargs.get("summary", None)
 
         for key in ("aliases", "summary"):
-            if kwargs.has_key(key):
+            if key in kwargs:
                 del kwargs[key]
 
         OptionParser.__init__(self, *args, **kwargs)
@@ -78,10 +80,11 @@ class Command(OptionParser):
             sys.stderr.write("\n")
         sys.exit(status)
 
+
 class CommandParser(OptionParser):
     """Parse command-line options CVS style."""
     def __init__(self, *args, **kwargs):
-        if not kwargs.has_key("usage"):
+        if "usage" not in kwargs:
             kwargs["usage"] = "%prog [options] <command> [command options]"
         OptionParser.__init__(self, *args, **kwargs)
         self.auto_order = kwargs.pop('auto_order', False)
@@ -105,11 +108,11 @@ class CommandParser(OptionParser):
         for attr in dir(module):
             cls = getattr(module, attr)
 
-            if not type(cls) is types.ClassType:
+            if not isinstance(cls, types.ClassType):
                 continue
 
             if (not cls is Command) \
-                   and issubclass(getattr(module, attr), Command):
+                    and issubclass(getattr(module, attr), Command):
                 self.add_command(cls(), group)
 
     def find_command(self, alias):
@@ -169,5 +172,9 @@ class CommandParser(OptionParser):
                 commands.sort(lambda x, y: cmp(x.get_name(), y.get_name()))
 
             for cmd in commands:
-                result.append("  %s%s  %s\n" % (cmd.helpstr, " "*(max_cmd_length-len(cmd.helpstr)), cmd.summary))
+                result.append("  %s%s  %s\n" %
+                              (cmd.helpstr,
+                               " " * (max_cmd_length - len(cmd.helpstr)),
+                               cmd.summary))
+
         return "".join(result)
